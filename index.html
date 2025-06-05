@@ -80,13 +80,21 @@
       resultDiv.innerHTML = "جاري التحميل...";
 
       try {
-        const response = await fetch(`https://script.google.com/macros/s/AKfycbx_tP_iAd4QoYVxdvRDKoqz3mxTTgzA3GlEZynZSKRnRI70bLoaKgMTAHnnIP9bmujQ/exec?code=${codeInput}`);
-        const data = await response.json();
+        const [nameResponse, reportResponse] = await Promise.all([
+          fetch(`https://script.google.com/macros/s/AKfycbzjNPODeKbb-6sqdpmoUVANUJpx-oINQh2-jDuLWriScfJTyi6kXCdVki1D-hVKWXTcyw/exec?code=${codeInput}`),
+          fetch(`https://script.google.com/macros/s/AKfycbzONscoKjAbJssyBOtbBbQMnP7YOzPnbrx7DtTtDTktzrMKzoWkud7Awty3h6qKQ6nv/exec?code=${codeInput}`)
+        ]);
 
-        if (data.success) {
-          resultDiv.innerHTML = `<p><strong>تقرير الحالة:</strong> ${data.report}</p>`;
+        const nameData = await nameResponse.json();
+        const reportData = await reportResponse.json();
+
+        if (nameData.success && reportData.success) {
+          resultDiv.innerHTML = `
+            <p><strong>الاسم:</strong> ${nameData.name}</p>
+            <p><strong>تقرير الحالة:</strong> ${reportData.report}</p>
+          `;
         } else {
-          resultDiv.innerHTML = `<p style="color:red;">${data.message}</p>`;
+          resultDiv.innerHTML = `<p style="color:red;">لم يتم العثور على البيانات.</p>`;
         }
       } catch (error) {
         console.error(error);
