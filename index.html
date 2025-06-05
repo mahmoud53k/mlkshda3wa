@@ -82,7 +82,7 @@
         const data1 = await res1.json();
 
         // جلب تقرير الحالة
-        const res2 = await fetch(`https://script.google.com/macros/s/AKfycbx_tP_iAd4QoYVxdvRDKoqz3mxTTgzA3GlEZynZSKRnRI70bLoaKgMTAHnnIP9bmujQ/exec?code=${codeoutput}`);
+        const res2 = await fetch(`https://script.google.com/macros/s/AKfycbx_tP_iAd4QoYVxdvRDKoqz3mxTTgzA3GlEZynZSKRnRI70bLoaKgMTAHnnIP9bmujQ/exec?code=${codeInput}`);
         const data2 = await res2.json();
 
         if (data1.success || data2.success) {
